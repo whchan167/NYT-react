@@ -3,7 +3,7 @@ var React = require('react');
 var Router = require('react-router')
 
 // Include the Helper (for the saved recall)
-var helpers = require('../utils/helpers');
+var helpers = require('./utils/helpers');
 
 // Create the Main component
 var Main = React.createClass({

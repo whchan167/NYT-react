@@ -7,7 +7,7 @@ var Query = require('./Search/Query');
 var Results = require('./Search/Results');
 
 // Include the Helper (for the query)
-var helpers = require('../../utils/helpers');
+var helpers = require('./utils/helpers');
 
 // Create the Main component
 var Search = React.createClass({
