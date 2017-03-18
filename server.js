@@ -19,7 +19,7 @@ var routes = require('./controllers/controller.js');
 app.use("/", routes);
 
 //setting up mongoose database
-mongoose.connect("mongodb://heroku_3f876xkx:t54b8afqdmobf4vrm3k1t6isa7@ds135680.mlab.com:35680/heroku_3f876xkx");
+mongoose.connect('mongodb://localhost/nytreact');
 var db = mongoose.connection;
 
 db.on('error', function(err) {
@@ -31,7 +31,7 @@ db.once('open', function() {
 });
 
 //port listener
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 8080;
 app.listen(PORT, function() {
   console.log('App running on port: ' + PORT);
 });

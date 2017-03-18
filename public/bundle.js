@@ -26879,7 +26879,15 @@
 
 	exports.__esModule = true;
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _extends = Object.assign || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }return target;
+	};
 
 	var _react = __webpack_require__(1);
 
@@ -26893,7 +26901,9 @@
 
 	var _routerWarning2 = _interopRequireDefault(_routerWarning);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	function _interopRequireDefault(obj) {
+	  return obj && obj.__esModule ? obj : { default: obj };
+	}
 
 	exports.default = function () {
 	  for (var _len = arguments.length, middlewares = Array(_len), _key = 0; _key < _len; _key++) {
@@ -27609,7 +27619,7 @@
 	console.log("5");
 	var helpers = {
 	  runQuery: function runQuery(term, start, end) {
-	    var queryURL = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + term + "&page=0&sort=newest&begin_date=" + start + "0101&end_date=" + end + "0101&api-key=" + apiCode;
+	    var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + term + "&page=0&sort=newest&begin_date=" + start + "0101&end_date=" + end + "0101&api-key=" + apiCode;
 	    return axios.get(queryURL).then(function (response) {
 	      return response.data.response.docs;
 	    });
@@ -29001,15 +29011,6 @@
 	  },
 
 	  componentDidMount: function componentDidMount() {
-
-	    helpers.getSaved().then(function (articleData) {
-	      this.setState({
-	        savedArticles: articleData.data
-	      });
-	    }.bind(this));
-	  },
-
-	  componentDidUpdate: function componentDidUpdate() {
 
 	    helpers.getSaved().then(function (articleData) {
 	      this.setState({

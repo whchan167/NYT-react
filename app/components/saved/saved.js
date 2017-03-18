@@ -24,15 +24,6 @@ var Saved = React.createClass({
       }.bind(this))
   },
 
-  componentDidUpdate: function(){
-
-    helpers.getSaved()
-      .then(function(articleData){
-        this.setState({
-          savedArticles: articleData.data
-        });
-      }.bind(this))
-  },
 
   // /*This code handles the sending of the search terms to the parent Search component*/
   handleClick: function(item, event){
