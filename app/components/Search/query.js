@@ -1,6 +1,5 @@
 // Include React and React-Router dependencies
 var React = require('react');
-console.log("7")
 
 // Query Component Declaration
 var Query = React.createClass({

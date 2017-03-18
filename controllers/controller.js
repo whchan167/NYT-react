@@ -1,7 +1,7 @@
 //Dependencies
 var express = require ('express');
 var router = express.Router();
-console.log("controller")
+
 //link the Article database file to controller.js
 var Article = require('../models/Article.js');
 
@@ -12,8 +12,7 @@ router.get('/', function(req, res){
 
 // Route to get all saved articles
 router.get('/api/saved', function(req, res) {
-  console.log("article.find")
-  Article.find({}).sort({date:-1})
+  Article.find({}).sort({pubdate:-1})
     .exec(function(err, doc){
       if(err){
         throw err;
@@ -26,14 +25,13 @@ router.get('/api/saved', function(req, res) {
 
 // Route to add an article to saved list
 router.post('/api/saved', function(req, res){
-  console.log("new database")
   var newArticle = new Article(req.body);
   Article.create(
     {title: req.body.title, 
      url: req.body.url, 
      pubdate: req.body.pubdate
    }).then(function(err, doc){
-     console.log("confirmed", doc);
+     res.send(doc);
    });
 });
 

@@ -1,7 +1,7 @@
 // Include React and React-Router dependencies
 var React = require('react');
 var Router = require('react-router');
-console.log("4")
+
 // Create the Main component
 var Main = React.createClass({
 

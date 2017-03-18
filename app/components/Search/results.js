@@ -20,7 +20,6 @@ var Results = React.createClass({
 
 	// /*This code handles the sending of the search terms to the parent Search component*/
 	handleClick: function(item, event){
-		console.log("ok", item)
 		helpers.postSaved(item.headline.main, item.web_url, item.pub_date)
 			.then(function(data){
 			}.bind(this))
