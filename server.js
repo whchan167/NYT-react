@@ -19,7 +19,7 @@ var routes = require('./controllers/controller.js');
 app.use("/", routes);
 
 //setting up mongoose database
-mongoose.connect('mongodb://localhost/nytreact');
+mongoose.connect('mongodb://heroku_gfjrhpkh:tihph9lrcdo1k6a5f2i0df2c51@ds135680.mlab.com:35680/heroku_gfjrhpkh');
 var db = mongoose.connection;
 
 db.on('error', function(err) {
