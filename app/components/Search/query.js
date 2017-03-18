@@ -1,5 +1,6 @@
 // Include React and React-Router dependencies
 var React = require('react');
+console.log("7")
 
 // Query Component Declaration
 var Query = React.createClass({
@@ -25,15 +26,13 @@ var Query = React.createClass({
 
   /*This code handles the sending of the search terms to the parent Search component*/
   handleSubmit: function(){
-    // preventing the form from trying to submit itself
-    event.preventDefault();
     this.props.updateSearch(this.state.search, this.state.start, this.state.end);
     return false;
   },
 
   // Here we render the Query component
   render: function(){
-
+    
     return(
       <div className ="main-container">
 
@@ -73,8 +72,8 @@ var Query = React.createClass({
                     </div>
 
                     {/*Here we create the onClick event that triggers the HandleSubmit*/}
-                    <div className="pull-right">
-                      <button type="button" className="btn btn-primary" onClick={this.handleSubmit}><h4>Submit</h4></button>
+                    <div>
+                      <button type="button" className="btn btn-danger" onClick={this.handleSubmit}><h4>Submit</h4></button>
                     </div>
                   </form>
 

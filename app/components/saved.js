@@ -31,7 +31,7 @@ var Main = React.createClass({
     console.log(item);
 
     // Delete the list!
-    helpers.deleteSaved(item.title, item.date, item.url)
+    helpers.deleteSaved(item.title, item.url, item.pubdate)
       .then(function(data){
 
       // Get the revised list!
@@ -50,23 +50,7 @@ var Main = React.createClass({
 
   render: function(){
 
-    if (this.state.savedArticles == "") {
-      return(
-
-        <li className="list-group-item">
-
-          <h3>
-              <span><em>Save your first article...</em></span>
-          </h3>
-
-          </li>
-
-      )
-    }
-
-    else {
-
-      var articles = this.state.savedArticles.map(function(article, index){
+      var articles = this.props.savedArticles.map(function(article, index){
 
         return(
 
@@ -90,9 +74,6 @@ var Main = React.createClass({
         )
 
       }.bind(this))
-
-    }
-
 
     return(
       <div className="main-container">

@@ -3,19 +3,16 @@ var Schema = mongoose.Schema;
 var articleSchema = new Schema ({
   title: {
     type: String,
-    require: true,
     unique: true,
-    dropDups: true,
   },
-  URL: {
+  url: {
     type: String,
-    required: true,
     unique: true,
   },
-  date: {
+  pubdate: {
     type: Date,
   }
 });
-
+console.log("loaded article.js")
 var Article = mongoose.model('Article', articleSchema);
 module.exports = Article;

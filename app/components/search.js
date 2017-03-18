@@ -3,12 +3,12 @@ var React = require('react');
 var Router = require('react-router');
 
 // Include the Query and Results componens
-var Query = require('./Search/Query');
-var Results = require('./Search/Results');
-
+var Query = require('./Search/query');
+var Results = require('./Search/results');
+var Saved = require('./Saved')
 // Include the Helper (for the query)
 var helpers = require('./utils/helpers');
-
+console.log("1")
 // Create the Main component
 var Search = React.createClass({
 
@@ -19,7 +19,7 @@ var Search = React.createClass({
       queryTerm: "",
       startYear: "",
       endYear: "",
-      results: {}
+      results: []
     }
   },
 
@@ -59,7 +59,7 @@ var Search = React.createClass({
   // i.e we will pass this method to the query component that way it can change the main component
   // to perform a new search
   setQuery: function(newQuery, newStart, newEnd){
-    console.log("TEST");
+
     this.setState({
       queryTerm: newQuery,
       startYear: newStart,
@@ -77,7 +77,7 @@ var Search = React.createClass({
 
         {/*Note how we pass the setQuery function to enable Query to perform searches*/}
         <Query updateSearch={this.setQuery} />
-
+        
         {/*Note how we pass in the results into this component*/}
         <Results results={this.state.results}/>
 

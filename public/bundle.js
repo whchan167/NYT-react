@@ -50,18 +50,11 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(32);
 
-	// Grab the proeprty associated with the Router
-	var Router = __webpack_require__(178).Router;
-
 	// Grabs the Routes
 	var routes = __webpack_require__(241);
 
 	// Renders the contents according to the route page.
-	ReactDOM.render(React.createElement(
-		Router,
-		null,
-		routes
-	), document.getElementById('app'));
+	ReactDOM.render(routes, document.getElementById('app'));
 
 /***/ },
 /* 1 */
@@ -27157,21 +27150,40 @@
 
 	var React = __webpack_require__(1);
 
-	var Router = __webpack_require__(178);
-	var Route = Router.Route;
+	//Include the react-router module
+	var router = __webpack_require__(178);
 
-	var IndexRoute = Router.IndexRoute;
+	// Include the Route component for displaying individual routes
+	var Route = router.Route;
 
+	// Include the Router component to contain all our Routes
+	// Here where we can pass in some configuration as props
+	var Router = router.Router;
+
+	// Include the IndexRoute (catch-all route)
+	var IndexRoute = router.IndexRoute;
+
+	// Include the hashHistory prop to handle routing client side without a server
+	// https://github.com/ReactTraining/react-router/blob/master/docs/guides/Histories.md#hashhistory
+	var hashHistory = router.hashHistory;
+
+	// Reference the high-level components
 	var Main = __webpack_require__(242);
-	var Search = __webpack_require__(243);
-	var Saved = __webpack_require__(269);
+	var Search = __webpack_require__(270);
+	var Saved = __webpack_require__(271);
 
-	module.exports = React.createElement(
-		Route,
-		{ path: '/', component: Main },
-		React.createElement(Route, { path: 'Search', component: Search }),
-		React.createElement(Route, { path: 'Saved', component: Saved }),
-		React.createElement(IndexRoute, { component: Search })
+	module.exports =
+	// The high level component is the Router component
+	React.createElement(
+		Router,
+		{ history: hashHistory },
+		React.createElement(
+			Route,
+			{ path: '/', component: Main },
+			React.createElement(Route, { path: 'Search', component: Search }),
+			React.createElement(Route, { path: 'Saved', component: Saved }),
+			React.createElement(IndexRoute, { component: Search })
+		)
 	);
 
 /***/ },
@@ -27183,7 +27195,7 @@
 	// Include React and React-Router dependencies
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(178);
-
+	console.log("4");
 	// Create the Main component
 	var Main = React.createClass({
 	  displayName: 'Main',
@@ -27200,76 +27212,21 @@
 	          'div',
 	          { className: 'container' },
 	          React.createElement(
-	            'nav',
-	            { className: 'navbar navbar-default', role: 'navigation' },
-	            React.createElement(
-	              'div',
-	              { className: 'container-fluid' },
-	              React.createElement(
-	                'div',
-	                { className: 'navbar-header' },
-	                React.createElement(
-	                  'button',
-	                  { type: 'button', className: 'navbar-toggle', 'data-toggle': 'collapse', 'data-target': '.navbar-ex1-collapse' },
-	                  React.createElement(
-	                    'span',
-	                    { className: 'sr-only' },
-	                    'Toggle navigation'
-	                  ),
-	                  React.createElement('span', { className: 'icon-bar' }),
-	                  React.createElement('span', { className: 'icon-bar' }),
-	                  React.createElement('span', { className: 'icon-bar' })
-	                ),
-	                React.createElement(
-	                  'a',
-	                  { className: 'navbar-brand', href: '#' },
-	                  'NYT-React'
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'collapse navbar-collapse navbar-ex1-collapse' },
-	                React.createElement(
-	                  'ul',
-	                  { className: 'nav navbar-nav navbar-right' },
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'a',
-	                      { href: '#/search' },
-	                      'Search'
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'a',
-	                      { href: '#/saved' },
-	                      'Saved Articles'
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
 	            'div',
 	            { className: 'jumbotron' },
 	            React.createElement(
-	              'h2',
+	              'h1',
 	              { className: 'text-center' },
 	              React.createElement(
 	                'strong',
 	                null,
-	                '(ReactJS) New York Times Article Scrubber'
+	                'New York Times Article Scrubber'
 	              )
 	            ),
 	            React.createElement(
 	              'h3',
 	              { className: 'text-center' },
-	              'Search for and save articles of interest.'
+	              'Search for and annotate articles of interest.'
 	            )
 	          ),
 	          this.props.children
@@ -27283,94 +27240,7 @@
 	module.exports = Main;
 
 /***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// Include React and React-Router dependencies
-	var React = __webpack_require__(1);
-	var Router = __webpack_require__(178);
-
-	// Include the Query and Results componens
-	var Query = __webpack_require__(244);
-	var Results = __webpack_require__(245);
-
-	// Include the Helper (for the query)
-	var helpers = __webpack_require__(246);
-
-	// Create the Main component
-	var Search = React.createClass({
-	  displayName: 'Search',
-
-
-	  /*Here we set the initial state variables (this allows us to propagate the variables for maniuplation by the children components*/
-	  /*Also note the "resuls" state. This will be where we hold the data from our results*/
-	  getInitialState: function getInitialState() {
-	    return {
-	      queryTerm: "",
-	      startYear: "",
-	      endYear: "",
-	      results: {}
-	    };
-	  },
-
-	  /*This function gets called if the user searches for a completely new set of parameters (i.e. if any of the search terms changes)*/
-	  /*If the user searches for the exact same thing, then React will ignore it.*/
-	  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-	    console.log("COMPONENT UPDATED");
-	    console.log(this.state.queryTerm);
-	    console.log(this.state.startYear);
-	    console.log(this.state.endYear);
-
-	    console.log("Previous State", prevState);
-
-	    if (this.state.queryTerm != "" && (prevState.queryTerm != this.state.queryTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear)) {
-	      helpers.runQuery(this.state.queryTerm, this.state.startYear, this.state.endYear).then(function (data) {
-	        if (data != this.state.results) {
-	          this.setState({
-	            results: data
-	          });
-	        }
-
-	        // console.log("RESULTS", results)
-	        // console.log("DATA", data)
-
-	        // This code is necessary to bind the keyword "this" when we say this.setState
-	        // to actually mean the component itself and not the runQuery function.
-	      }.bind(this));
-	    }
-	  },
-
-	  // This function will be passed down into children components so they can change the "parent"
-	  // i.e we will pass this method to the query component that way it can change the main component
-	  // to perform a new search
-	  setQuery: function setQuery(newQuery, newStart, newEnd) {
-	    console.log("TEST");
-	    this.setState({
-	      queryTerm: newQuery,
-	      startYear: newStart,
-	      endYear: newEnd
-	    });
-	  },
-
-	  /*Render the function. Note how we deploy both the Query and the Results*/
-	  render: function render() {
-	    console.log("Render Results", this.state.results);
-
-	    return React.createElement(
-	      'div',
-	      { className: 'main-container' },
-	      React.createElement(Query, { updateSearch: this.setQuery }),
-	      React.createElement(Results, { results: this.state.results })
-	    );
-	  }
-	});
-
-	// Export the module back to the route
-	module.exports = Search;
-
-/***/ },
+/* 243 */,
 /* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -27378,6 +27248,7 @@
 
 	// Include React and React-Router dependencies
 	var React = __webpack_require__(1);
+	console.log("7");
 
 	// Query Component Declaration
 	var Query = React.createClass({
@@ -27405,8 +27276,6 @@
 
 	  /*This code handles the sending of the search terms to the parent Search component*/
 	  handleSubmit: function handleSubmit() {
-	    // preventing the form from trying to submit itself
-	    event.preventDefault();
 	    this.props.updateSearch(this.state.search, this.state.start, this.state.end);
 	    return false;
 	  },
@@ -27494,10 +27363,10 @@
 	                ),
 	                React.createElement(
 	                  "div",
-	                  { className: "pull-right" },
+	                  null,
 	                  React.createElement(
 	                    "button",
-	                    { type: "button", className: "btn btn-primary", onClick: this.handleSubmit },
+	                    { type: "button", className: "btn btn-danger", onClick: this.handleSubmit },
 	                    React.createElement(
 	                      "h4",
 	                      null,
@@ -27531,6 +27400,7 @@
 	// Include the Helper (for the query)
 	var helpers = __webpack_require__(246);
 
+	console.log("results");
 	// Query Component Declaration
 	var Results = React.createClass({
 		displayName: 'Results',
@@ -27547,93 +27417,64 @@
 
 		// /*This code handles the sending of the search terms to the parent Search component*/
 		handleClick: function handleClick(item, event) {
-			console.log("CLICKED");
-			console.log(item);
-
-			helpers.postSaved(item.headline.main, item.pub_date, item.web_url).then(function (data) {
-				console.log(item.web_url);
-			}.bind(this));
+			console.log("ok", item);
+			helpers.postSaved(item.headline.main, item.web_url, item.pub_date).then(function (data) {}.bind(this));
 		},
 
 		// Here we render the function
 		render: function render() {
 
-			// We check if the target has a "docs" value (to confirm that we aren't just running the initial data)
-			if (!this.props.results.hasOwnProperty('docs')) {
+			// We loop through the results and create divs for each.
 
+			var articles = this.props.results.map(function (article, index) {
+
+				// Each article thus reperesents a list group item with a known index
 				return React.createElement(
-					'li',
-					{ className: 'list-group-item' },
+					'div',
+					{ key: index },
 					React.createElement(
-						'h3',
-						null,
+						'li',
+						{ className: 'list-group-item' },
 						React.createElement(
-							'span',
+							'h3',
 							null,
 							React.createElement(
-								'em',
+								'span',
 								null,
-								'Enter search terms to begin...'
-							)
-						)
-					)
-				);
-			}
-
-			// If data is provided
-			else {
-
-					// We loop through the results and create divs for each.
-					var articles = this.props.results.docs.map(function (article, index) {
-
-						// Each article thus reperesents a list group item with a known index
-						return React.createElement(
-							'div',
-							{ key: index },
-							React.createElement(
-								'li',
-								{ className: 'list-group-item' },
 								React.createElement(
-									'h3',
+									'em',
 									null,
+									article.headline.main
+								)
+							),
+							React.createElement(
+								'span',
+								{ className: 'btn-group pull-right' },
+								React.createElement(
+									'a',
+									{ href: article.web_url, target: '_blank' },
 									React.createElement(
-										'span',
-										null,
-										React.createElement(
-											'em',
-											null,
-											article.headline.main
-										)
-									),
-									React.createElement(
-										'span',
-										{ className: 'btn-group pull-right' },
-										React.createElement(
-											'a',
-											{ href: article.web_url, target: '_blank' },
-											React.createElement(
-												'button',
-												{ className: 'btn btn-default ' },
-												'View Article'
-											)
-										),
-										React.createElement(
-											'button',
-											{ className: 'btn btn-primary', onClick: this.handleClick.bind(this, article) },
-											'Save'
-										)
+										'button',
+										{ className: 'btn btn-default ' },
+										'View Article'
 									)
 								),
 								React.createElement(
-									'p',
-									null,
-									'Date Published: ',
-									article.pub_date
+									'button',
+									{ className: 'btn btn-primary', onClick: this.handleClick.bind(this, article) },
+									'Save'
 								)
 							)
-						);
-					}.bind(this));
-				}
+						),
+						React.createElement(
+							'p',
+							null,
+							'Date Published: ',
+							article.pub_date
+						)
+					)
+				);
+			}.bind(this));
 
 			return React.createElement(
 				'div',
@@ -27657,7 +27498,7 @@
 										'strong',
 										null,
 										React.createElement('i', { className: 'fa fa-list-alt' }),
-										'  Results'
+										'Results'
 									)
 								)
 							),
@@ -27688,7 +27529,7 @@
 
 	var axios = __webpack_require__(247);
 	var apiCode = '947d5081ff3049009693665d893a4b8f';
-
+	console.log("5");
 	var helpers = {
 	  runQuery: function runQuery(term, start, end) {
 	    var queryURL = "http://api.nytimes.com/svc/search/v2/articlesearch.json?q=" + term + "&page=0&sort=newest&begin_date=" + start + "0101&end_date=" + end + "0101&api-key=" + apiCode;
@@ -27701,8 +27542,8 @@
 	      return response;
 	    });
 	  },
-	  postSaved: function postSaved(title, URL, date) {
-	    return axios.post('/api/saved', { title: title, URL: URL, date: date }).then(function (result) {
+	  postSaved: function postSaved(title, url, pubdate) {
+	    return axios.post('/api/saved', { title: title, url: url, pubdate: pubdate }).then(function (result) {
 	      return result;
 	    });
 	  },
@@ -29059,7 +28900,96 @@
 
 
 /***/ },
-/* 269 */
+/* 269 */,
+/* 270 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// Include React and React-Router dependencies
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(178);
+
+	// Include the Query and Results componens
+	var Query = __webpack_require__(244);
+	var Results = __webpack_require__(245);
+	var Saved = __webpack_require__(271);
+	// Include the Helper (for the query)
+	var helpers = __webpack_require__(246);
+	console.log("1");
+	// Create the Main component
+	var Search = React.createClass({
+	  displayName: 'Search',
+
+
+	  /*Here we set the initial state variables (this allows us to propagate the variables for maniuplation by the children components*/
+	  /*Also note the "resuls" state. This will be where we hold the data from our results*/
+	  getInitialState: function getInitialState() {
+	    return {
+	      queryTerm: "",
+	      startYear: "",
+	      endYear: "",
+	      results: []
+	    };
+	  },
+
+	  /*This function gets called if the user searches for a completely new set of parameters (i.e. if any of the search terms changes)*/
+	  /*If the user searches for the exact same thing, then React will ignore it.*/
+	  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
+	    console.log("COMPONENT UPDATED");
+	    console.log(this.state.queryTerm);
+	    console.log(this.state.startYear);
+	    console.log(this.state.endYear);
+
+	    console.log("Previous State", prevState);
+
+	    if (this.state.queryTerm != "" && (prevState.queryTerm != this.state.queryTerm || prevState.startYear != this.state.startYear || prevState.endYear != this.state.endYear)) {
+	      helpers.runQuery(this.state.queryTerm, this.state.startYear, this.state.endYear).then(function (data) {
+	        if (data != this.state.results) {
+	          this.setState({
+	            results: data
+	          });
+	        }
+
+	        // console.log("RESULTS", results)
+	        // console.log("DATA", data)
+
+	        // This code is necessary to bind the keyword "this" when we say this.setState
+	        // to actually mean the component itself and not the runQuery function.
+	      }.bind(this));
+	    }
+	  },
+
+	  // This function will be passed down into children components so they can change the "parent"
+	  // i.e we will pass this method to the query component that way it can change the main component
+	  // to perform a new search
+	  setQuery: function setQuery(newQuery, newStart, newEnd) {
+
+	    this.setState({
+	      queryTerm: newQuery,
+	      startYear: newStart,
+	      endYear: newEnd
+	    });
+	  },
+
+	  /*Render the function. Note how we deploy both the Query and the Results*/
+	  render: function render() {
+	    console.log("Render Results", this.state.results);
+
+	    return React.createElement(
+	      'div',
+	      { className: 'main-container' },
+	      React.createElement(Query, { updateSearch: this.setQuery }),
+	      React.createElement(Results, { results: this.state.results })
+	    );
+	  }
+	});
+
+	// Export the module back to the route
+	module.exports = Search;
+
+/***/ },
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29098,7 +29028,7 @@
 	    console.log(item);
 
 	    // Delete the list!
-	    helpers.deleteSaved(item.title, item.date, item.url).then(function (data) {
+	    helpers.deleteSaved(item.title, item.url, item.pubdate).then(function (data) {
 
 	      // Get the revised list!
 	      helpers.getSaved().then(function (articleData) {
@@ -29112,75 +29042,54 @@
 
 	  render: function render() {
 
-	    if (this.state.savedArticles == "") {
+	    var articles = this.props.savedArticles.map(function (article, index) {
+
 	      return React.createElement(
-	        'li',
-	        { className: 'list-group-item' },
+	        'div',
+	        { key: index },
 	        React.createElement(
-	          'h3',
-	          null,
+	          'li',
+	          { className: 'list-group-item' },
 	          React.createElement(
-	            'span',
+	            'h3',
 	            null,
 	            React.createElement(
-	              'em',
-	              null,
-	              'Save your first article...'
-	            )
-	          )
-	        )
-	      );
-	    } else {
-
-	      var articles = this.state.savedArticles.map(function (article, index) {
-
-	        return React.createElement(
-	          'div',
-	          { key: index },
-	          React.createElement(
-	            'li',
-	            { className: 'list-group-item' },
-	            React.createElement(
-	              'h3',
+	              'span',
 	              null,
 	              React.createElement(
-	                'span',
+	                'em',
 	                null,
-	                React.createElement(
-	                  'em',
-	                  null,
-	                  article.title
-	                )
-	              ),
-	              React.createElement(
-	                'span',
-	                { className: 'btn-group pull-right' },
-	                React.createElement(
-	                  'a',
-	                  { href: article.url, target: '_blank' },
-	                  React.createElement(
-	                    'button',
-	                    { className: 'btn btn-default ' },
-	                    'View Article'
-	                  )
-	                ),
-	                React.createElement(
-	                  'button',
-	                  { className: 'btn btn-primary', onClick: this.handleClick.bind(this, article) },
-	                  'Delete'
-	                )
+	                article.title
 	              )
 	            ),
 	            React.createElement(
-	              'p',
-	              null,
-	              'Date Published: ',
-	              article.date
+	              'span',
+	              { className: 'btn-group pull-right' },
+	              React.createElement(
+	                'a',
+	                { href: article.url, target: '_blank' },
+	                React.createElement(
+	                  'button',
+	                  { className: 'btn btn-default ' },
+	                  'View Article'
+	                )
+	              ),
+	              React.createElement(
+	                'button',
+	                { className: 'btn btn-primary', onClick: this.handleClick.bind(this, article) },
+	                'Delete'
+	              )
 	            )
+	          ),
+	          React.createElement(
+	            'p',
+	            null,
+	            'Date Published: ',
+	            article.date
 	          )
-	        );
-	      }.bind(this));
-	    }
+	        )
+	      );
+	    }.bind(this));
 
 	    return React.createElement(
 	      'div',
