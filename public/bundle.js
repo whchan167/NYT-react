@@ -27252,7 +27252,7 @@
 	// Include the Query and Results componens
 	var Query = __webpack_require__(244);
 	var Results = __webpack_require__(245);
-	var Saved = __webpack_require__(270);
+	var Saved = __webpack_require__(269);
 
 	// Include the Helper (for the query)
 	var helpers = __webpack_require__(246);
@@ -28978,126 +28978,6 @@
 
 /***/ },
 /* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// Include React and React-Router dependencies
-	var React = __webpack_require__(1);
-	var Router = __webpack_require__(179);
-
-	// Include the Helper (for the saved recall)
-	var helpers = __webpack_require__(246);
-
-	// Create the Saved component
-	var Saved = React.createClass({
-	  displayName: 'Saved',
-
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      savedArticles: ""
-	    };
-	  },
-
-	  componentDidMount: function componentDidMount() {
-
-	    helpers.getSaved().then(function (articleData) {
-	      this.setState({
-	        savedArticles: articleData.data
-	      });
-	      console.log("saved results", articleData.data);
-	    }.bind(this));
-	  },
-
-	  // /*This code handles the sending of the search terms to the parent Search component*/
-	  handleClick: function handleClick(item, event) {
-	    console.log("CLICKED");
-	    console.log(item);
-
-	    // Delete the list!
-	    helpers.deleteSaved(item.title, item.url, item.pubdate).then(function (data) {
-
-	      // Get the revised list!
-	      helpers.getSaved().then(function (articleData) {
-	        this.setState({
-	          savedArticles: articleData.data
-	        });
-	        console.log("saved results", articleData.data);
-	      }.bind(this));
-	    }.bind(this));
-	  },
-
-	  render: function render() {
-	    console.log(this.state.savedArticles);
-
-	    //var articles = this.state.savedArticles.map(function(article, index){
-
-	    //return(
-
-	    //<div key={index}>
-
-	    //<li className="list-group-item" >
-
-	    //<h3>
-	    //<span><em>{article.title}</em></span>
-	    //<span className="btn-group pull-right" >
-	    //<a href={article.url} target="_blank"><button className="btn btn-default ">View Article</button></a>
-	    //<button className="btn btn-primary" onClick={this.handleClick.bind(this, article)}>Delete</button>
-	    //</span>
-	    //</h3>
-	    //<p>Date Published: {article.date}</p>
-
-	    //</li>
-
-	    //</div>
-	    //)
-
-	    //}.bind(this))
-
-	    return React.createElement(
-	      'div',
-	      { className: 'main-container' },
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'col-lg-12' },
-	          React.createElement(
-	            'div',
-	            { className: 'panel panel-primary' },
-	            React.createElement(
-	              'div',
-	              { className: 'panel-heading' },
-	              React.createElement(
-	                'h1',
-	                { className: 'panel-title' },
-	                React.createElement(
-	                  'strong',
-	                  null,
-	                  React.createElement('i', { className: 'fa fa-download', 'aria-hidden': 'true' }),
-	                  ' Saved Articles'
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'panel-body' },
-	              React.createElement('ul', { className: 'list-group' })
-	            )
-	          )
-	        )
-	      )
-	    );
-	  }
-	});
-
-	// Export the module back to the route
-	module.exports = Saved;
-
-/***/ },
-/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

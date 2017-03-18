@@ -5,7 +5,7 @@ var Router = require('react-router');
 // Include the Query and Results componens
 var Query = require('./Search/query');
 var Results = require('./Search/results');
-var Saved = require('./Search/saved');
+var Saved = require('./saved/saved');
 
 // Include the Helper (for the query)
 var helpers = require('./utils/helpers');

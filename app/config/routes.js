@@ -20,7 +20,7 @@ var hashHistory = router.hashHistory;
 // Reference the high-level components
 var Main = require('../components/Main');
 var Search = require('../components/Search');
-var Saved = require('../components/Saved');
+var Saved = require('../components/saved/saved');
 
 module.exports = (
   // The high level component is the Router component
